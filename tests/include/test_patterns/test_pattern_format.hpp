@@ -30,6 +30,12 @@ namespace pl::test {
                 //   \xF0\x9F\x98  the last one, cut short by the end of the
                 //                 string. Reading its fourth byte reads past
                 //                 the end.
+                // Characters a formatter must escape, and text above ASCII that
+                // it must not.
+                fn format_tricky(str value) {
+                    return "quote=\" backslash=\\ newline=\n café";
+                };
+
                 fn format_utf8(str value) {
                     return "\xC3|\x80|\xC0\xAF|\xE0\x80\xAF|\xF0\x80\x80\xAF|\xED\xA0\x80|\xF4\x90\x80\x80|\xF0\x9F\x98\x80|\xF0\x9F\x98";
                 };
@@ -48,6 +54,9 @@ namespace pl::test {
                     s48 sd;
                     s64 se;
                     // s128 sf;
+
+                    // Last, so the offsets above do not move.
+                    char tricky[1] [[format("format_tricky")]];
                     char utf8[1] [[format("format_utf8")]];
                 };
 
